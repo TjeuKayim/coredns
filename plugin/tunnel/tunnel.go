@@ -28,9 +28,9 @@ func (wh Tunnel) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 	rr.Hdr = dns.RR_Header{Name: state.QName(), Rrtype: dns.TypeCNAME, Class: state.QClass()}
 
 	name := state.QName()
-	idx := dns.Split(name)
-	firstLabel := name[:idx[1]]
-	zone := name[idx[1]:]
+	idx := dns.Split(name)[1] - 1
+	firstLabel := name[:idx]
+	zone := name[idx:]
 	rr.Target = reverse(firstLabel) + zone
 
 	a.Answer = []dns.RR{rr}
