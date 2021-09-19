@@ -36,7 +36,7 @@ func (wh Tunnel) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 
 	name := state.QName()
 	idx := dns.Split(name)
-	i := idx[len(idx)-2] - 1
+	i := idx[len(idx)-3] - 1
 	firstLabel := name[:i]
 	zone := name[i:]
 	rr.Target = reverse(firstLabel) + zone
