@@ -32,6 +32,7 @@ var Directives = []string{
 	"dns64",
 	"acl",
 	"any",
+	"tunnel",
 	"chaos",
 	"loadbalance",
 	"cache",
@@ -57,7 +58,6 @@ var Directives = []string{
 	"grpc",
 	"erratic",
 	"whoami",
-	"tunnel",
 	"on",
 	"sign",
 }

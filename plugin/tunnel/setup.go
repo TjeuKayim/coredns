@@ -14,8 +14,11 @@ func setup(c *caddy.Controller) error {
 		return plugin.Error("tunnel", c.ArgErr())
 	}
 
+	t := Tunnel{}
+
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
-		return Tunnel{}
+		t.Next = next
+		return t
 	})
 
 	return nil

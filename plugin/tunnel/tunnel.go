@@ -5,6 +5,7 @@ package tunnel
 import (
 	"context"
 
+	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/request"
 
 	"github.com/miekg/dns"
@@ -14,10 +15,16 @@ const name = "tunnel"
 
 // Tunnel is a plugin that returns your IP address, port and the protocol used for connecting
 // to CoreDNS.
-type Tunnel struct{}
+type Tunnel struct {
+	Next plugin.Handler
+}
 
 // ServeDNS implements the plugin.Handler interface.
 func (wh Tunnel) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	if r.Question[0].Qtype != dns.TypeCNAME {
+		return plugin.NextOrFailure(wh.Name(), wh.Next, ctx, w, r)
+	}
+
 	state := request.Request{W: w, Req: r}
 
 	a := new(dns.Msg)
