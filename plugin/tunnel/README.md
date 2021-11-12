@@ -7,9 +7,7 @@
 ## Description
 
 The *tunnel* plugin is not really that useful, but can be used for testing DNS tunneling performance.
-For CNAME queries, it interprets the subdomain as Base128 and responds with the payload XOR-ed.
-
-The *tunnel* plugin will respond to every CNAME query, regardless of the query name.
+Only alters CNAME queries, other types are forwarded to the next plugins.
 
 ## Syntax
 

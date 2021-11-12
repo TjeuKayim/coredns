@@ -35,11 +35,12 @@ func (wh Tunnel) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 	rr.Hdr = dns.RR_Header{Name: state.QName(), Rrtype: dns.TypeCNAME, Class: state.QClass()}
 
 	name := state.QName()
+	// log.Println("[DBG tunnel] ", name)
 	idx := dns.Split(name)
 	i := idx[len(idx)-3] - 1
 	firstLabel := name[:i]
 	zone := name[i:]
-	rr.Target = reverse(firstLabel) + zone
+	rr.Target = firstLabel + ".1" + zone
 
 	a.Answer = []dns.RR{rr}
 
@@ -50,10 +51,3 @@ func (wh Tunnel) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 
 // Name implements the Handler interface.
 func (wh Tunnel) Name() string { return name }
-
-func reverse(name string) (reversed string) {
-	for _, v := range name {
-		reversed = string(v) + reversed
-	}
-	return
-}
